@@ -20,7 +20,7 @@ import { voicesAtom } from '@/lib/store'
 import { useToast } from '@/hooks/useToast'
 import { apiService } from '@/services/api'
 import { formatFileSize } from '@/lib/utils'
-import { VoiceCloneRequest } from '@/types'
+import { VoiceCloneRequest, Voice } from '@/types'
 
 export default function VoiceClonePage() {
   const [voices, setVoices] = useAtom(voicesAtom)
@@ -143,7 +143,7 @@ export default function VoiceClonePage() {
 
       if (response.success && response.data) {
         // Add new voice to the voices list
-        setVoices(prev => [...prev, response.data])
+        setVoices(prev => [...prev, response.data as Voice])
         
         success('Voice cloned successfully!', `${formData.name} is now available for text-to-speech conversion`)
         

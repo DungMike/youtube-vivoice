@@ -1,4 +1,4 @@
-import { ApiResponse, Script, Voice, VoiceCloneRequest } from '@/types'
+import { ApiResponse, Script, Voice, VoiceCloneRequest, User } from '@/types'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api'
 
@@ -40,15 +40,15 @@ class ApiService {
   }
 
   // Authentication
-  async login(email: string, password: string) {
-    return this.request('/auth/login', {
+  async login(email: string, password: string): Promise<ApiResponse<{ user: User }>> {
+    return this.request<{ user: User }>('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     })
   }
 
-  async register(email: string, password: string, name: string) {
-    return this.request('/auth/register', {
+  async register(email: string, password: string, name: string): Promise<ApiResponse<{ user: User }>> {
+    return this.request<{ user: User }>('/auth/register', {
       method: 'POST',
       body: JSON.stringify({ email, password, name }),
     })
@@ -131,12 +131,12 @@ class ApiService {
   }
 
   // User Profile
-  async getUserProfile() {
-    return this.request('/user/profile')
+  async getUserProfile(): Promise<ApiResponse<User>> {
+    return this.request<User>('/user/profile')
   }
 
-  async updateUserProfile(data: { name?: string; email?: string }) {
-    return this.request('/user/profile', {
+  async updateUserProfile(data: { name?: string; email?: string }): Promise<ApiResponse<User>> {
+    return this.request<User>('/user/profile', {
       method: 'PUT',
       body: JSON.stringify(data),
     })
