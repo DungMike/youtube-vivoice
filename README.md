@@ -5,23 +5,27 @@ A modern, full-featured web application for generating scripts, converting text 
 ## 🚀 Features
 
 ### 📝 Script Generation
+
 - **From YouTube**: Generate scripts from YouTube video content
 - **From Ideas**: Create scripts based on your concepts and ideas
 - **Smart Processing**: AI-powered content analysis and script creation
 
 ### 🎵 Text-to-Speech
+
 - **Multiple Input Methods**: Type text directly or upload text files
 - **Voice Selection**: Choose from various built-in voices
 - **Batch Processing**: Convert multiple text blocks simultaneously
 - **Audio Management**: Play, download, and manage generated audio files
 
 ### 🎤 Voice Cloning
+
 - **Custom Voices**: Clone voices from audio samples
 - **High Quality**: Support for various audio formats (MP3, WAV, FLAC)
 - **Real-time Preview**: Listen to audio samples before cloning
 - **Voice Management**: Organize and manage your custom voices
 
 ### 🎨 Modern UI/UX
+
 - **Responsive Design**: Works perfectly on desktop and mobile
 - **Dark/Light Mode**: Full theme support with system preference detection
 - **Accessible**: Built with accessibility best practices
@@ -30,6 +34,7 @@ A modern, full-featured web application for generating scripts, converting text 
 ## 🛠️ Technology Stack
 
 ### Frontend
+
 - **Next.js 14** - React framework with App Router
 - **TypeScript** - Type-safe JavaScript
 - **Tailwind CSS** - Utility-first CSS framework
@@ -38,6 +43,7 @@ A modern, full-featured web application for generating scripts, converting text 
 - **Lucide React** - Beautiful icons
 
 ### Development Tools
+
 - **ESLint** - Code linting
 - **Prettier** - Code formatting
 - **TypeScript** - Static type checking
@@ -71,18 +77,21 @@ A modern, full-featured web application for generating scripts, converting text 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/your-username/voiceclone-ai.git
    cd voiceclone-ai
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    # or
@@ -90,17 +99,20 @@ A modern, full-featured web application for generating scripts, converting text 
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env.local
    ```
-   
+
    Configure your environment variables:
+
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:3001/api
    # Add other environment variables as needed
    ```
 
 4. **Run the development server**
+
    ```bash
    npm run dev
    # or
@@ -120,6 +132,7 @@ npm start
 ## 🎯 Usage Guide
 
 ### Script Generation
+
 1. Navigate to the home page
 2. Choose between "From YouTube" or "From Idea" tabs
 3. Enter your YouTube URL or describe your idea
@@ -127,6 +140,7 @@ npm start
 5. Copy the script or send it directly to Text-to-Speech
 
 ### Text-to-Speech Conversion
+
 1. Go to the TTS page (`/tts`)
 2. Add text by typing or uploading files
 3. Select a voice for each text block
@@ -134,6 +148,7 @@ npm start
 5. Play, download, or manage your generated audio files
 
 ### Voice Cloning
+
 1. Visit the Voice Clone page (`/voice-clone`)
 2. Enter a name for your custom voice
 3. Upload a high-quality audio sample (10-30 seconds recommended)
@@ -144,15 +159,18 @@ npm start
 ## 🔧 Development
 
 ### Code Style
+
 - ESLint and Prettier are configured for consistent code formatting
 - Run `npm run lint` to check for issues
 - Run `npm run format` to format code
 
 ### Type Checking
+
 - Full TypeScript support with strict mode enabled
 - Run `npm run type-check` to validate types
 
 ### Component Development
+
 - Uses shadcn/ui for consistent, accessible components
 - Custom components follow the established patterns
 - Responsive design is prioritized
@@ -160,16 +178,19 @@ npm start
 ## 🎨 Customization
 
 ### Themes
+
 - Built-in dark/light mode support
 - Customize colors in `tailwind.config.js`
 - Theme switching handled by `next-themes`
 
 ### Components
+
 - All UI components are customizable
 - Located in `components/ui/`
 - Built with Radix UI primitives for accessibility
 
 ### State Management
+
 - Jotai atoms for reactive state management
 - Global state in `lib/store.ts`
 - Local state for component-specific data
@@ -177,6 +198,7 @@ npm start
 ## 📱 Features in Detail
 
 ### Audio Player Component
+
 - Play/pause controls
 - Progress bar with seeking
 - Volume control
@@ -184,6 +206,7 @@ npm start
 - Responsive design
 
 ### File Upload System
+
 - Drag and drop support
 - File type validation
 - Size restrictions
@@ -191,6 +214,7 @@ npm start
 - Batch upload support
 
 ### Voice Management
+
 - Voice selection interface
 - Custom voice integration
 - Voice preview capabilities
@@ -207,11 +231,13 @@ npm start
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
+
 1. Connect your GitHub repository to Vercel
 2. Configure environment variables
 3. Deploy automatically on push
 
 ### Docker
+
 ```bash
 # Build the image
 docker build -t voiceclone-ai .
@@ -221,6 +247,7 @@ docker run -p 3000:3000 voiceclone-ai
 ```
 
 ### Traditional Hosting
+
 1. Run `npm run build`
 2. Upload the `.next` folder and other necessary files
 3. Configure your web server to serve the application
@@ -240,6 +267,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 For support and questions:
+
 - Create an issue on GitHub
 - Check the documentation
 - Review the code examples

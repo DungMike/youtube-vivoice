@@ -13,11 +13,11 @@ interface AudioPlayerProps {
   showDownload?: boolean
 }
 
-export function AudioPlayer({ 
-  src, 
-  title, 
+export function AudioPlayer({
+  src,
+  title,
   className,
-  showDownload = true 
+  showDownload = true,
 }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [duration, setDuration] = useState(0)
@@ -27,7 +27,9 @@ export function AudioPlayer({
 
   useEffect(() => {
     const audio = audioRef.current
-    if (!audio) return
+    if (!audio) {
+      return
+    }
 
     const setAudioData = () => {
       setDuration(audio.duration)
@@ -61,7 +63,9 @@ export function AudioPlayer({
 
   const togglePlayPause = () => {
     const audio = audioRef.current
-    if (!audio) return
+    if (!audio) {
+      return
+    }
 
     if (isPlaying) {
       audio.pause()
@@ -73,7 +77,9 @@ export function AudioPlayer({
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const audio = audioRef.current
-    if (!audio) return
+    if (!audio) {
+      return
+    }
 
     const rect = e.currentTarget.getBoundingClientRect()
     const percent = (e.clientX - rect.left) / rect.width
@@ -92,7 +98,9 @@ export function AudioPlayer({
   }
 
   const formatTime = (time: number) => {
-    if (isNaN(time)) return '0:00'
+    if (isNaN(time)) {
+      return '0:00'
+    }
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)
     return `${minutes}:${seconds.toString().padStart(2, '0')}`
@@ -101,9 +109,14 @@ export function AudioPlayer({
   const progress = duration ? (currentTime / duration) * 100 : 0
 
   return (
-    <div className={cn('flex items-center space-x-3 p-3 bg-muted/50 rounded-lg', className)}>
+    <div
+      className={cn(
+        'flex items-center space-x-3 p-3 bg-muted/50 rounded-lg',
+        className
+      )}
+    >
       <audio ref={audioRef} src={src} preload="metadata" />
-      
+
       <Button
         variant="ghost"
         size="icon"
@@ -121,17 +134,12 @@ export function AudioPlayer({
       </Button>
 
       <div className="flex-1 space-y-1">
-        {title && (
-          <div className="text-sm font-medium truncate">{title}</div>
-        )}
+        {title && <div className="text-sm font-medium truncate">{title}</div>}
         <div className="flex items-center space-x-2">
           <span className="text-xs text-muted-foreground">
             {formatTime(currentTime)}
           </span>
-          <div 
-            className="flex-1 cursor-pointer"
-            onClick={handleProgressClick}
-          >
+          <div className="flex-1 cursor-pointer" onClick={handleProgressClick}>
             <Progress value={progress} className="h-1" />
           </div>
           <span className="text-xs text-muted-foreground">

@@ -63,18 +63,20 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!validateForm()) return
+
+    if (!validateForm()) {
+      return
+    }
 
     setIsLoading(true)
-    
+
     try {
       const response = await apiService.register(
         formData.email,
         formData.password,
         formData.name
       )
-      
+
       if (response.success && response.data) {
         setUser(response.data.user)
         success('Account created!', 'Welcome to VoiceClone AI.')
@@ -97,7 +99,9 @@ export default function RegisterPage() {
             <span className="text-primary-foreground font-bold text-xl">V</span>
           </div>
         </div>
-        <CardTitle className="text-2xl text-center">Create an account</CardTitle>
+        <CardTitle className="text-2xl text-center">
+          Create an account
+        </CardTitle>
         <CardDescription className="text-center">
           Enter your information to get started with VoiceClone AI
         </CardDescription>
@@ -195,7 +199,9 @@ export default function RegisterPage() {
             Create Account
           </Button>
           <div className="text-center text-sm">
-            <span className="text-muted-foreground">Already have an account? </span>
+            <span className="text-muted-foreground">
+              Already have an account?{' '}
+            </span>
             <Link href="/login" className="text-primary hover:underline">
               Sign in
             </Link>

@@ -8,9 +8,7 @@ export default function MainLayout({
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="container mx-auto py-6">
-        {children}
-      </main>
+      <main className="container mx-auto py-6">{children}</main>
     </div>
   )
 }

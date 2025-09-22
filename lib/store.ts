@@ -3,7 +3,7 @@ import { User, Voice, TextBlock, Toast } from '@/types'
 
 // User authentication state
 export const userAtom = atom<User | null>(null)
-export const isAuthenticatedAtom = atom((get) => get(userAtom) !== null)
+export const isAuthenticatedAtom = atom(get => get(userAtom) !== null)
 
 // Available voices
 export const voicesAtom = atom<Voice[]>([
@@ -63,7 +63,7 @@ export const updateTextBlockAtom = atom(
     const currentBlocks = get(textBlocksAtom)
     set(
       textBlocksAtom,
-      currentBlocks.map((block) =>
+      currentBlocks.map(block =>
         block.id === id ? { ...block, ...updates } : block
       )
     )
@@ -75,7 +75,7 @@ export const removeTextBlockAtom = atom(null, (get, set, id: string) => {
   const currentBlocks = get(textBlocksAtom)
   set(
     textBlocksAtom,
-    currentBlocks.filter((block) => block.id !== id)
+    currentBlocks.filter(block => block.id !== id)
   )
 })
 
@@ -83,32 +83,29 @@ export const removeTextBlockAtom = atom(null, (get, set, id: string) => {
 export const toastsAtom = atom<Toast[]>([])
 
 // Add toast
-export const addToastAtom = atom(
-  null,
-  (get, set, toast: Omit<Toast, 'id'>) => {
-    const currentToasts = get(toastsAtom)
-    const newToast: Toast = {
-      ...toast,
-      id: Date.now().toString(),
-      duration: toast.duration || 5000,
-    }
-    set(toastsAtom, [...currentToasts, newToast])
-
-    // Auto remove toast after duration
-    setTimeout(() => {
-      set(
-        toastsAtom,
-        get(toastsAtom).filter((t) => t.id !== newToast.id)
-      )
-    }, newToast.duration)
+export const addToastAtom = atom(null, (get, set, toast: Omit<Toast, 'id'>) => {
+  const currentToasts = get(toastsAtom)
+  const newToast: Toast = {
+    ...toast,
+    id: Date.now().toString(),
+    duration: toast.duration || 5000,
   }
-)
+  set(toastsAtom, [...currentToasts, newToast])
+
+  // Auto remove toast after duration
+  setTimeout(() => {
+    set(
+      toastsAtom,
+      get(toastsAtom).filter(t => t.id !== newToast.id)
+    )
+  }, newToast.duration)
+})
 
 // Remove toast
 export const removeToastAtom = atom(null, (get, set, id: string) => {
   set(
     toastsAtom,
-    get(toastsAtom).filter((toast) => toast.id !== id)
+    get(toastsAtom).filter(toast => toast.id !== id)
   )
 })
 

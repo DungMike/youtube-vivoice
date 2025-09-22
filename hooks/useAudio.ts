@@ -23,7 +23,7 @@ export function useAudio(src?: string): UseAudioReturn {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [volume, setVolumeState] = useState(1)
-  
+
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
@@ -32,10 +32,10 @@ export function useAudio(src?: string): UseAudioReturn {
         audioRef.current.pause()
         setIsPlaying(false)
       }
-      
+
       audioRef.current = new Audio(src)
       const audio = audioRef.current
-      
+
       audio.volume = volume
       setIsLoading(true)
       setError(null)
@@ -82,8 +82,10 @@ export function useAudio(src?: string): UseAudioReturn {
   }, [src, volume])
 
   const play = useCallback(async () => {
-    if (!audioRef.current) return
-    
+    if (!audioRef.current) {
+      return
+    }
+
     try {
       setIsLoading(true)
       await audioRef.current.play()
@@ -113,11 +115,14 @@ export function useAudio(src?: string): UseAudioReturn {
     }
   }, [])
 
-  const seek = useCallback((time: number) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = Math.max(0, Math.min(time, duration))
-    }
-  }, [duration])
+  const seek = useCallback(
+    (time: number) => {
+      if (audioRef.current) {
+        audioRef.current.currentTime = Math.max(0, Math.min(time, duration))
+      }
+    },
+    [duration]
+  )
 
   const setVolume = useCallback((newVolume: number) => {
     const clampedVolume = Math.max(0, Math.min(1, newVolume))

@@ -1,24 +1,24 @@
 'use client'
 
-import React, { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useSetAtom } from 'jotai'
-import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { userAtom } from '@/lib/store'
 import { useToast } from '@/hooks/useToast'
+import { userAtom } from '@/lib/store'
 import { apiService } from '@/services/api'
+import { useSetAtom } from 'jotai'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -31,17 +31,17 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!email || !password) {
       error('Please fill in all fields')
       return
     }
 
     setIsLoading(true)
-    
+
     try {
       const response = await apiService.login(email, password)
-      
+
       if (response.success && response.data) {
         setUser(response.data.user)
         success('Welcome back!', 'You have been logged in successfully.')
@@ -78,7 +78,7 @@ export default function LoginPage() {
               type="email"
               placeholder="Enter your email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               disabled={isLoading}
               required
             />
@@ -91,7 +91,7 @@ export default function LoginPage() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Enter your password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 disabled={isLoading}
                 required
               />
@@ -118,7 +118,9 @@ export default function LoginPage() {
             Sign In
           </Button>
           <div className="text-center text-sm">
-            <span className="text-muted-foreground">Don't have an account? </span>
+            <span className="text-muted-foreground">
+              Don&apos;t have an account?{' '}
+            </span>
             <Link href="/register" className="text-primary hover:underline">
               Sign up
             </Link>

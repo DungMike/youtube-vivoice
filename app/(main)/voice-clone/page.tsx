@@ -1,12 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
-import { useAtom } from 'jotai'
-import { Upload, Mic, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import { AudioPlayer } from '@/components/shared/audio-player'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import {
   Card,
   CardContent,
@@ -14,16 +9,21 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
-import { AudioPlayer } from '@/components/shared/audio-player'
-import { voicesAtom } from '@/lib/store'
+import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/useToast'
-import { apiService } from '@/services/api'
+import { voicesAtom } from '@/lib/store'
 import { formatFileSize } from '@/lib/utils'
-import { VoiceCloneRequest, Voice } from '@/types'
+import { apiService } from '@/services/api'
+import { Voice, VoiceCloneRequest } from '@/types'
+import { useAtom } from 'jotai'
+import { AlertCircle, CheckCircle, Loader2, Mic, Upload } from 'lucide-react'
+import React, { useState } from 'react'
 
 export default function VoiceClonePage() {
-  const [voices, setVoices] = useAtom(voicesAtom)
+  const [, setVoices] = useAtom(voicesAtom)
   const [formData, setFormData] = useState<Partial<VoiceCloneRequest>>({
     name: '',
     description: '',
@@ -35,7 +35,9 @@ export default function VoiceClonePage() {
   const [dragActive, setDragActive] = useState(false)
   const { success, error, info } = useToast()
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -52,16 +54,19 @@ export default function VoiceClonePage() {
     // Validate file size (max 50MB)
     const maxSize = 50 * 1024 * 1024
     if (file.size > maxSize) {
-      error('File too large', `Please select a file smaller than ${formatFileSize(maxSize)}`)
+      error(
+        'File too large',
+        `Please select a file smaller than ${formatFileSize(maxSize)}`
+      )
       return
     }
 
     setAudioFile(file)
-    
+
     // Create preview URL
     const url = URL.createObjectURL(file)
     setAudioPreviewUrl(url)
-    
+
     // Auto-generate name from filename if not set
     if (!formData.name) {
       const nameWithoutExt = file.name.replace(/\.[^/.]+$/, '')
@@ -71,13 +76,16 @@ export default function VoiceClonePage() {
       }))
     }
 
-    info('File selected', `${file.name} (${formatFileSize(file.size)}) ready for cloning`)
+    info(
+      'File selected',
+      `${file.name} (${formatFileSize(file.size)}) ready for cloning`
+    )
   }
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
     setDragActive(false)
-    
+
     const files = Array.from(e.dataTransfer.files)
     if (files.length > 0) {
       handleFileSelect(files[0])
@@ -115,8 +123,10 @@ export default function VoiceClonePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!validateForm()) return
+
+    if (!validateForm()) {
+      return
+    }
 
     setIsCloning(true)
     setProgress(0)
@@ -125,7 +135,9 @@ export default function VoiceClonePage() {
       // Simulate progress updates
       const progressInterval = setInterval(() => {
         setProgress(prev => {
-          if (prev >= 90) return prev
+          if (prev >= 90) {
+            return prev
+          }
           return prev + Math.random() * 10
         })
       }, 500)
@@ -137,22 +149,25 @@ export default function VoiceClonePage() {
       }
 
       const response = await apiService.cloneVoice(request)
-      
+
       clearInterval(progressInterval)
       setProgress(100)
 
       if (response.success && response.data) {
         // Add new voice to the voices list
         setVoices(prev => [...prev, response.data as Voice])
-        
-        success('Voice cloned successfully!', `${formData.name} is now available for text-to-speech conversion`)
-        
+
+        success(
+          'Voice cloned successfully!',
+          `${formData.name} is now available for text-to-speech conversion`
+        )
+
         // Reset form
         setFormData({ name: '', description: '' })
         setAudioFile(null)
         setAudioPreviewUrl('')
         setProgress(0)
-        
+
         // Close tab after a delay if opened from TTS page
         setTimeout(() => {
           if (window.opener) {
@@ -163,7 +178,10 @@ export default function VoiceClonePage() {
         error('Cloning failed', response.error || 'Failed to clone voice')
       }
     } catch (err) {
-      error('Cloning failed', 'An unexpected error occurred during voice cloning')
+      error(
+        'Cloning failed',
+        'An unexpected error occurred during voice cloning'
+      )
     } finally {
       setIsCloning(false)
     }
@@ -193,7 +211,8 @@ export default function VoiceClonePage() {
             Clone Your Voice
           </CardTitle>
           <CardDescription>
-            Upload a high-quality audio sample to create your personalized voice clone
+            Upload a high-quality audio sample to create your personalized voice
+            clone
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -232,8 +251,8 @@ export default function VoiceClonePage() {
               <Label>Audio Sample *</Label>
               <div
                 className={`relative border-2 border-dashed rounded-lg p-8 transition-colors ${
-                  dragActive 
-                    ? 'border-primary bg-primary/10' 
+                  dragActive
+                    ? 'border-primary bg-primary/10'
                     : 'border-muted-foreground/25 hover:border-muted-foreground/50'
                 }`}
                 onDrop={handleDrop}
@@ -247,7 +266,7 @@ export default function VoiceClonePage() {
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   disabled={isCloning}
                 />
-                
+
                 {!audioFile ? (
                   <div className="text-center space-y-3">
                     <Upload className="h-12 w-12 text-muted-foreground mx-auto" />
@@ -290,8 +309,8 @@ export default function VoiceClonePage() {
             {audioPreviewUrl && (
               <div className="space-y-2">
                 <Label>Preview</Label>
-                <AudioPlayer 
-                  src={audioPreviewUrl} 
+                <AudioPlayer
+                  src={audioPreviewUrl}
                   title={audioFile?.name || 'Audio Preview'}
                   showDownload={false}
                 />
@@ -312,8 +331,8 @@ export default function VoiceClonePage() {
             )}
 
             {/* Submit Button */}
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full"
               disabled={isCloning || !audioFile || !formData.name?.trim()}
             >

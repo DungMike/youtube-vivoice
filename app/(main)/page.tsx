@@ -43,12 +43,18 @@ export default function ScriptGeneratorPage() {
     setIsLoading(true)
     try {
       const response = await apiService.generateScriptFromYoutube(youtubeUrl)
-      
+
       if (response.success && response.data) {
         setGeneratedScript(response.data.content)
-        success('Script generated!', 'Your script has been created from the YouTube video.')
+        success(
+          'Script generated!',
+          'Your script has been created from the YouTube video.'
+        )
       } else {
-        error('Generation failed', response.error || 'Failed to generate script from YouTube video')
+        error(
+          'Generation failed',
+          response.error || 'Failed to generate script from YouTube video'
+        )
       }
     } catch (err) {
       error('Generation failed', 'An unexpected error occurred')
@@ -71,12 +77,18 @@ export default function ScriptGeneratorPage() {
     setIsLoading(true)
     try {
       const response = await apiService.generateScriptFromIdea(idea)
-      
+
       if (response.success && response.data) {
         setGeneratedScript(response.data.content)
-        success('Script generated!', 'Your script has been created from your idea.')
+        success(
+          'Script generated!',
+          'Your script has been created from your idea.'
+        )
       } else {
-        error('Generation failed', response.error || 'Failed to generate script from idea')
+        error(
+          'Generation failed',
+          response.error || 'Failed to generate script from idea'
+        )
       }
     } catch (err) {
       error('Generation failed', 'An unexpected error occurred')
@@ -86,8 +98,10 @@ export default function ScriptGeneratorPage() {
   }
 
   const handleCopyScript = async () => {
-    if (!generatedScript) return
-    
+    if (!generatedScript) {
+      return
+    }
+
     try {
       await navigator.clipboard.writeText(generatedScript)
       success('Copied!', 'Script copied to clipboard')
@@ -97,8 +111,10 @@ export default function ScriptGeneratorPage() {
   }
 
   const handleSendToTTS = () => {
-    if (!generatedScript) return
-    
+    if (!generatedScript) {
+      return
+    }
+
     // Store the script in localStorage to pass to TTS page
     localStorage.setItem('scriptForTTS', generatedScript)
     router.push('/tts?from=script')
@@ -142,14 +158,15 @@ export default function ScriptGeneratorPage() {
                   type="url"
                   placeholder="https://www.youtube.com/watch?v=..."
                   value={youtubeUrl}
-                  onChange={(e) => setYoutubeUrl(e.target.value)}
+                  onChange={e => setYoutubeUrl(e.target.value)}
                   disabled={isLoading}
                 />
                 <p className="text-sm text-muted-foreground">
-                  Paste a YouTube video URL to generate a script based on its content
+                  Paste a YouTube video URL to generate a script based on its
+                  content
                 </p>
               </div>
-              <Button 
+              <Button
                 onClick={handleGenerateFromYoutube}
                 disabled={isLoading || !youtubeUrl.trim()}
                 className="w-full"
@@ -166,7 +183,7 @@ export default function ScriptGeneratorPage() {
                   id="idea-input"
                   placeholder="Describe your idea, topic, or concept that you'd like to turn into a script..."
                   value={idea}
-                  onChange={(e) => setIdea(e.target.value)}
+                  onChange={e => setIdea(e.target.value)}
                   disabled={isLoading}
                   rows={4}
                 />
@@ -174,7 +191,7 @@ export default function ScriptGeneratorPage() {
                   Provide a detailed description of your idea or topic
                 </p>
               </div>
-              <Button 
+              <Button
                 onClick={handleGenerateFromIdea}
                 disabled={isLoading || !idea.trim()}
                 className="w-full"
@@ -192,9 +209,7 @@ export default function ScriptGeneratorPage() {
         <Card>
           <CardHeader>
             <CardTitle>Generated Script</CardTitle>
-            <CardDescription>
-              Your AI-generated script is ready
-            </CardDescription>
+            <CardDescription>Your AI-generated script is ready</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {isLoading ? (

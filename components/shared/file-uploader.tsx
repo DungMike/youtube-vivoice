@@ -25,21 +25,30 @@ export function FileUploader({
   const [dragActive, setDragActive] = React.useState(false)
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([])
 
-  const handleFiles = useCallback((files: FileList | null) => {
-    if (!files) return
-
-    const fileArray = Array.from(files)
-    const validFiles = fileArray.filter(file => {
-      if (file.size > maxSize) {
-        console.warn(`File ${file.name} is too large (${formatFileSize(file.size)})`)
-        return false
+  const handleFiles = useCallback(
+    (files: FileList | null) => {
+      if (!files) {
+        return
       }
-      return true
-    })
 
-    setSelectedFiles(prev => multiple ? [...prev, ...validFiles] : validFiles)
-    onFilesSelect(validFiles)
-  }, [maxSize, multiple, onFilesSelect])
+      const fileArray = Array.from(files)
+      const validFiles = fileArray.filter(file => {
+        if (file.size > maxSize) {
+          console.warn(
+            `File ${file.name} is too large (${formatFileSize(file.size)})`
+          )
+          return false
+        }
+        return true
+      })
+
+      setSelectedFiles(prev =>
+        multiple ? [...prev, ...validFiles] : validFiles
+      )
+      onFilesSelect(validFiles)
+    },
+    [maxSize, multiple, onFilesSelect]
+  )
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -51,32 +60,41 @@ export function FileUploader({
     }
   }, [])
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
-    handleFiles(e.dataTransfer.files)
-  }, [handleFiles])
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      setDragActive(false)
+      handleFiles(e.dataTransfer.files)
+    },
+    [handleFiles]
+  )
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    handleFiles(e.target.files)
-  }, [handleFiles])
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      handleFiles(e.target.files)
+    },
+    [handleFiles]
+  )
 
-  const removeFile = useCallback((index: number) => {
-    setSelectedFiles(prev => {
-      const newFiles = prev.filter((_, i) => i !== index)
-      onFilesSelect(newFiles)
-      return newFiles
-    })
-  }, [onFilesSelect])
+  const removeFile = useCallback(
+    (index: number) => {
+      setSelectedFiles(prev => {
+        const newFiles = prev.filter((_, i) => i !== index)
+        onFilesSelect(newFiles)
+        return newFiles
+      })
+    },
+    [onFilesSelect]
+  )
 
   return (
     <div className={cn('w-full', className)}>
       <div
         className={cn(
           'relative border-2 border-dashed rounded-lg p-6 transition-colors',
-          dragActive 
-            ? 'border-primary bg-primary/10' 
+          dragActive
+            ? 'border-primary bg-primary/10'
             : 'border-muted-foreground/25 hover:border-muted-foreground/50'
         )}
         onDragEnter={handleDrag}
@@ -91,7 +109,7 @@ export function FileUploader({
           onChange={handleInputChange}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
-        
+
         {children || (
           <div className="flex flex-col items-center justify-center space-y-3">
             <Upload className="h-10 w-10 text-muted-foreground" />
@@ -100,7 +118,8 @@ export function FileUploader({
                 Drop files here or click to browse
               </p>
               <p className="text-xs text-muted-foreground mt-1">
-                Supported formats: {acceptedTypes.replace(/\./g, '').toUpperCase()}
+                Supported formats:{' '}
+                {acceptedTypes.replace(/\./g, '').toUpperCase()}
               </p>
               <p className="text-xs text-muted-foreground">
                 Max size: {formatFileSize(maxSize)}

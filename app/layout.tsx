@@ -8,7 +8,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'VoiceClone AI - Text-to-Speech & Voice Cloning Platform',
-  description: 'Generate scripts from YouTube videos, convert text to speech, and clone voices with AI technology.',
+  description:
+    'Generate scripts from YouTube videos, convert text to speech, and clone voices with AI technology.',
   keywords: 'text-to-speech, voice cloning, AI, YouTube, script generation',
   authors: [{ name: 'VoiceClone AI Team' }],
   viewport: 'width=device-width, initial-scale=1',
